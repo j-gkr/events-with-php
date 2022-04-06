@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  backend:
+    container_name: backend
+    build: ./
+    volumes:
+      - ./:/usr/src/backend
+      - ./dist:/usr/src/backend/dist
+      - /usr/src/backend/node_modules
+    command: npm run start:dev
+    ports:
+      - 5000:5000
+      - 9229:9229
+    hostname: backend
+

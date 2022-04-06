@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1 class="mt-5">Create an Event</h1>
+
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_start(form) }}
+                {{ form_row(form.eventTitle) }}
+                {{ form_row(form.eventDate) }}
+                {{ form_row(form.eventCity) }}
+
+
+                <ul class="tickets"
+                    data-index="{{ form.tickets|length > 0 ? form.tickets|last.vars.name + 1 : 0 }}"
+                    data-prototype="{{ form_widget(form.tickets.vars.prototype)|e('html_attr') }}"
+                    style="list-style-type: none;">
+                    {% for ticket in form.tickets %}
+                        {{ form_row(ticket.barcode) }}
+                        {{ form_row(ticket.firstName) }}
+                        {{ form_row(ticket.lastName) }}
+                    {% endfor %}
+                </ul>
+
+                <div class="mb-3">
+                    <button type="button" class="add_item_link btn btn-primary" data-collection-holder-class="tickets">Add a ticket</button>
+                </div>
+
+                <input type="submit" class="btn btn-primary" value="Create" />
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+
+    <script>
+        const addFormToCollection = (e) => {
+            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+            const item = document.createElement('li');
+
+            item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                /__name__/g,
+                collectionHolder.dataset.index
+                );
+
+            collectionHolder.appendChild(item);
+
+            collectionHolder.dataset.index++;
+        };
+
+        document
+            .querySelectorAll('.add_item_link')
+            .forEach(btn => {
+                btn.addEventListener("click", addFormToCollection)
+            });
+    </script>
+{% endblock %}

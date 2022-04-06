@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1 class="mt-5">Recent Events</h1>
+
+
+    <div class="row">
+        {% for item in events %}
+        <div class="col-xs-12 mt-2">
+            <div class="card">
+                <div class="card-header">
+                    Title: {{ item.eventTitle }} Date: {{ item.eventDate|date('d.m.Y') }} City: {{ item.eventCity }}
+                </div>
+                <div class="card-body">
+                    {% if item.tickets is defined %}
+                        <h5>Event Tickets</h5>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                <th scope="col">Barcode</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ticket in item.tickets %}
+                                    <tr>
+                                        <td>{{ ticket.barcode }}</td>
+                                        <td>{{ ticket.firstName }}</td>
+                                        <td>{{ ticket.lastName }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <h5>There are no tickets for this event.</h5>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+{% endblock %}
