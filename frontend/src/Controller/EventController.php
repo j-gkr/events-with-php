@@ -16,8 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class EventController extends BaseController
 {
-    const DOCKER_HOST_LINUX = '172.17.0.1';
-    const DOCKER_HOST_MAC_WIN = 'host.docker.internal';
+    // unter macOS vermutlich -> 'host.docker.internal'
+    const DOCKER_HOST = '172.17.0.1';
 
     /**
      * @Route("/", name="index_event")
@@ -26,7 +26,7 @@ class EventController extends BaseController
     {
         $response = $this->client->request(
             'GET',
-            sprintf('http://%s:5000/events', self::DOCKER_HOST_LINUX)
+            sprintf('http://%s:5000/events', self::DOCKER_HOST)
         );
 
         $content = $response->toArray();
@@ -49,7 +49,7 @@ class EventController extends BaseController
 
             $response = $this->client->request(
                 'POST',
-                sprintf('http://%s:5000/events', self::DOCKER_HOST_LINUX),
+                sprintf('http://%s:5000/events', self::DOCKER_HOST),
                 [
                     'body' => $event->toArray(),
                 ]

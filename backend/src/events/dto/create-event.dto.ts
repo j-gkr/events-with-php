@@ -1,10 +1,21 @@
-import { Ticket } from "src/ticket/ticket.entity";
-import { v4 as uuid4 } from 'uuid';
+import { Ticket } from 'src/ticket/ticket.entity';
+import { IsNotEmpty } from 'class-validator';
 
+/**
+ * Data transfer object to create an event.
+ */
 export class CreateEventDto {
+    
     eventId: string;
-    readonly eventTitle: string;
-    readonly eventDate: Date;
-    readonly eventCity: string;
-    readonly tickets: Ticket[];
+    
+    @IsNotEmpty()
+    eventTitle: string;
+
+    @IsNotEmpty()
+    eventDate: Date;
+
+    @IsNotEmpty()
+    eventCity: string;
+
+    tickets: Ticket[];
 }

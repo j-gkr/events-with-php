@@ -27,9 +27,38 @@ Wenn alle Maschinen funktionieren würden, würde die Waage ein Gewicht von 5500
 
 Baue eine API und ein Frontend um Eventinformationen anzuzeigen und zu speichern.
 
-Dazu die Docker Container ausführen:
+### Umgebung ausführen
+
+**Wichtig:** Vorher die lokalen Ports frei machen. [80, 443, 5000] (Falls bspw. ein lokaler apache läuft...)
 
 1. Docker Container ausführen, dazu im `frontend` und `backend` Ordner `docker-compose up --build` ausführen.
 2. Das Backend lauscht auf den Port 5000.
 3. Auf der Startseite sollte schon ein Event angezeigt werden.
 4. Weitere Events können über den Menüpunkt "Create an Event" angelegt werden.
+
+### Test ausführen
+
+Ich habe einen Test erstellt, der das initiale Event Array prüft.
+
+1. Zum Aufschalten auf den `backend` container `docker exec -it backend /bin/sh` ausführen
+2. `npm test` ausführen
+
+### Validation
+
+#### Backend-Seite
+
+- Mithilfe der Validation Pipe
+
+#### Frontend-Seite
+
+- Mithilfe der Symfony Form Validation
+
+## Anmerkungen
+
+- Im EventController verwende ich eine Konstante für die Host-IP, da `localhost` im Container auf den Container zeigt. Ich habe gelesen, dass unter macOS vermutlich `host.docker.internal` funktioniert.
+
+- Ich hoffe es ist bei euch ohne Änderungen ausführbar.
+
+Viele Grüße
+
+Julian :)

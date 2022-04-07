@@ -8,12 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventService = void 0;
 const common_1 = require("@nestjs/common");
-const uuid_1 = require("uuid");
 let EventService = class EventService {
     constructor() {
         this.events = [
             {
-                eventId: (0, uuid_1.v4)(),
+                eventId: 'a0914679-03b5-44e9-ba9f-5e38b3331151',
                 eventTitle: 'Bootshaus',
                 eventDate: new Date(),
                 eventCity: 'Cologne',

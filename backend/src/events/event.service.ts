@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Event } from './event.entity';
-import { v4 as uuid4 } from 'uuid';
 
 @Injectable()
 export class EventService {
   private readonly events: Event[] = [
     { 
-      eventId: uuid4(),  
+      eventId: 'a0914679-03b5-44e9-ba9f-5e38b3331151',  
       eventTitle: 'Bootshaus', 
       eventDate: new Date(), 
       eventCity: 'Cologne', 
