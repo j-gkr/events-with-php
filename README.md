@@ -57,6 +57,8 @@ Ich habe einen Test erstellt, der das initiale Event Array prüft.
 
 - Im EventController verwende ich eine Konstante für die Host-IP, da `localhost` im Container auf den Container zeigt. Ich habe gelesen, dass unter macOS vermutlich `host.docker.internal` funktioniert.
 
+- Erstmalig mit dem NestJS Framework gearbeitet, weil ich nicht zwei Symfony Umgebungen verwenden wollte.
+
 - Ich hoffe es ist bei euch ohne Änderungen ausführbar.
 
 Viele Grüße
