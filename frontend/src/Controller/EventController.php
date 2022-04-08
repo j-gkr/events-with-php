@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use App\Form\Dto\Event;
 use App\Form\Type\EventType;
 use Symfony\Component\HttpFoundation\Request;
