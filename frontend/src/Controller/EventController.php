@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Form\Dto\Event;
-use App\Form\Dto\Ticket;
 use App\Form\Type\EventType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -17,20 +16,30 @@ use Symfony\Component\HttpFoundation\Request;
 class EventController extends BaseController
 {
     // unter macOS vermutlich -> 'host.docker.internal'
-    const DOCKER_HOST = '172.17.0.1';
+    const DOCKER_HOST = 'host.docker.internal';
+    const TIMEOUT = 2.5;
 
     /**
      * @Route("/", name="index_event")
      */
     public function index(): Response
     {
-        $response = $this->client->request(
-            'GET',
-            sprintf('http://%s:5000/events', self::DOCKER_HOST)
-        );
+        try {
+            $response = $this->client->request(
+                'GET',
+                sprintf('http://%s:5000/events', self::DOCKER_HOST),
+                [
+                    'timeout' => self::TIMEOUT
+                ]
+            );
 
-        $content = $response->toArray();
-        return $this->render('events/index.html.twig', ['events' => $content]);
+            $content = $response->toArray();
+
+            return $this->render('events/index.html.twig', ['events' => $content]);
+        } catch (Exception $e) {
+            return $this->render('events/index.html.twig', ['error' => $e->getMessage()]);
+        }
+
     }
 
     /**
@@ -39,7 +48,6 @@ class EventController extends BaseController
     public function create(Request $request): Response
     {
         $event = new Event();
-        $ticket = new Ticket();
 
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
@@ -47,15 +55,20 @@ class EventController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $event = $form->getData();
 
-            $response = $this->client->request(
-                'POST',
-                sprintf('http://%s:5000/events', self::DOCKER_HOST),
-                [
-                    'body' => $event->toArray(),
-                ]
-            );
+            try {
+                $this->client->request(
+                    'POST',
+                    sprintf('http://%s:5000/events', self::DOCKER_HOST),
+                    [
+                        'body' => $event->toArray(),
+                        'timeout' => self::TIMEOUT
+                    ]
+                );
 
-            return $this->redirectToRoute('index_event');
+                return $this->redirectToRoute('index_event');
+            } catch (Exception $e) {
+                return $this->redirectToRoute('index_event', ['error' => $e->getMessage()]);
+            }
         }
 
         return $this->renderForm('events/create.html.twig', ['form' => $form]);
